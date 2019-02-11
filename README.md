@@ -2,82 +2,18 @@
 <img src="Vivoray.png" width="512">
 
 
-Introduction
-------------
-Vivoray is an open-source, free comprehensive software that will allow biomedical scientists to precisely locate shape changes in their imaging studies. This software called Slicer Shape AnaLysis Toolbox (Vivoray), will enhance the intuitiveness and ease of use for such studies, as well as allow researchers to find shape changes with higher statistical power. Altogether this constitutes a crucial resource for the imaging field that will enable many and important new findings in biomedical imaging studies.
-
-Prerequisites
--------------
-* [Slicer Prerequisites]
-* [Fortran Compiler]
-
-Checkout
---------
-* Register [Github Access]() to create an account
-* Create SSH keys associated to your account: [SSH Key Generation Instructions].
-    * Recommended: keep the passphrase empty for your SSH key to let the Superbuild work without interruptions
-* Add the SSH key to your Github account: [Steps to add SSH Key to Github].
-* Clone the repository and follow platform specific instructions below:
-
-        $ git clone git@github.com:Kitware/Vivoray.git
-
-Build
------
-
-Make sure that you can compile Slicer OR have the Prerequisites for Slicer: [Slicer Build Instructions].
-
-### Windows
-
-Tested Development environment: [Slicer Windows Dev Environment].
-
-1. Run CMake (cmake-gui) from the Windows Start Menu
-    * Set the build directory `C:\Vivoray-Debug` or `C:\Vivoray-Release`
-    * Select your compiler: Visual Studio 12 2013 Win64
-    * Configure using default options. You may get a configuration error that `QT_QMAKE_EXECUTABLE` is not set, which is normal.
-    * Verify that `QT_QMAKE_EXECUTABLE` is set to the QT version that was used to compile Slicer
-    * Click generate the close cmake-gui
-2. Build (be prepared to wait for some hours!)
-    * Open the top-level Vivoray.sln in the build directory
-    * If you're trying to build Release mode, make sure to set the active configuration to Release 
-    * Build Solution!
-3. Vivoray executable lives in `path/to/Vivoray-build/S-bld/Slicer-build/`
-
-### Unix-like
-
-***MacOSX Note:*** Beginning XCode 7 support for OpenMP has been removed. So if you're using XCode 7 or above OpenMP will be bypassed during build process.
-
-        $ mkdir Vivoray-build
-        $ cd Vivoray-build
-
-1. Configure CMake
-    *       $ ccmake ../Vivoray
-    * Point CMake to the QT version that was used to compile Slicer
-    * ___MacOSX:___ Set variable CMAKE_OSX_DEPLOYMENT_TARGET to 10.9 (Mavericks) / 10.10 (Yosemite) / 10.11 (El Capitan)
-2. Build (be prepared to wait for some hours!)
-
-        $ make -j4
-3. Vivoray executable lives in `path/to/Vivoray-build/S-bld/Slicer-build/`
-
-Contribute
-----------
-See [CONTRIBUTING.md][] for instructions to contribute.
-
-[CONTRIBUTING.md]: CONTRIBUTING.md
-
-Package
--------
-
-
-Resources
----------
-* [3D Slicer Developer Wiki](http://wiki.slicer.org/slicerWiki/index.php/Documentation/Nightly/Developers)
-
-
-[Fork the Vivoray Repository]: https://help.github.com/articles/fork-a-repo/
-[Slicer Coding and Commit Style Guide]: https://www.slicer.org/wiki/Documentation/Nightly/Developers/Style_Guide
-[Slicer Prerequisites]: https://www.slicer.org/wiki/Documentation/Nightly/Developers/Build_Instructions#PREREQUISITES
-[Fortran Compiler]: https://www.slicer.org/wiki/Documentation/Nightly/Developers/Fortran
-[Slicer Build Instructions]: https://www.slicer.org/slicerWiki/index.php/Documentation/Nightly/Developers/Build_Instructions
-[SSH Key Generation Instructions]: https://gitlab.kitware.com/help/ssh/README
-[Steps to add SSH Key to Github]: https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
-[Slicer Windows Dev Environment]: https://www.slicer.org/wiki/Documentation/Nightly/Developers/Build_Instructions#Windows
+Build on Ubuntu
+---------------
+sudo apt install qtcreator qtdeclarative5-dev qtmultimedia5-dev qtbase5-private-dev libqt5xmlpatterns5-dev libqt5svg5-dev libqt5webenginewidgets5 qtwebengine5-dev qtscript5-dev qttools5-dev libxt-dev libqt5x11extras5-dev
+sudo apt install libcurl4-openssl-dev libssl-dev
+sudo apt remove cmake
+sudo pip install --upgrade cmake
+export PATH=/usr/local/bin:$PATH
+sudo apt install gfortran libqtwebkit-dev qt4-default
+git clone git@github.com:/satya-arjunan/vivoray.git
+cd vivoray
+mkdir build
+cd build
+cmake -DQt5_DIR=/usr/lib/qt5 -DCMAKE_BUILD_TYPE:STRING=Debug -DSlicer_USE_SYSTEM_OpenSSL=1 -DSlicer_USE_SYSTEM_curl:BOOL=1 ../
+make -j2
+./Slicer-build/Vivoray
